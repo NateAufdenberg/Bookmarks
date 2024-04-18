@@ -84,6 +84,7 @@
             background: #FFF;
             position: relative;
             color: #999;
+            padding: 20px;
             transition: 0.3s ease all;
             border-bottom: 1px solid #DDD;
             font-size: 16px;
@@ -92,11 +93,11 @@
             color: #1CE;
             text-decoration: none;
         }
-        .bokmark:first-child {
+        .bookmark:first-child {
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
         }
-        .bokmark:last-child {
+        .bookmark:last-child {
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
             border-bottom: 0;
@@ -111,12 +112,12 @@
             margin-right: 20px;
         }
 
-        .bokmark .title {
+        .bookmark .title {
             display: flex;
             align-items: center;
         }
 
-        .bokmark .glyphicon-remove {
+        .bookmark .glyphicon-remove {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -176,8 +177,8 @@
         const bookmarkForm = document.querySelector('.bookmark-form');
         const bookmarkInput = bookmarkForm.querySelector('input[type=text]');
         const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
-        const apiUrl = 'https://opengraph.io/api/1.0.site';
-        const appID = 'a73538d1-6573-4042-843e-39cfcd7d2f8f';
+        const apiUrl = 'https://opengraph.io/api/1.0/site';
+        const appId = 'a73538d1-6573-4042-843e-39cfcd7d2f8f';
 
         fillBookmarksList(bookmarks);
 
@@ -191,7 +192,7 @@
                 return;
             }
 
-            fetch(`${apiUrl}/${url}?app_id=${appID}`)
+            fetch(`${apiUrl}/${url}?app_id=${appId}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
@@ -227,10 +228,10 @@
 
         function fillBookmarksList(bookmarks = []) {
             const bookmarksHtml = bookmarks.map((bookmark, i) => {
-                return `<a href="#" class="bookmark" data-id="${i}">
-                    <div class="img"></div>
-                    <div class="img">${bookmark.title}</div>
-                    <span class="glyphicon glyphicon-remove"></a>span
+                return `<a href="${bookmark.link}" class="bookmark" data-id="${i}">
+                    <div class="img" style="background-image:url('${bookmark.image}')"></div>
+                    <div class="title">${bookmark.title}</div>
+                    <span class="glyphicon glyphicon-remove"></span>
                     </a>
                     `;
             }).join('');
